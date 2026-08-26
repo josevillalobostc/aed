@@ -133,7 +133,7 @@ template <typename data_type> struct DoubleLinkedList {
     if (tail == nullptr) {
       head = tail = new DoublyLinkedNode<data_type>(value);
     } else {
-      tail->next = new DoublyLinkedNode<data_type>(value);
+      tail->next = new DoublyLinkedNode<data_type>(value, nullptr, tail);
       tail = tail->next;
     }
   }
@@ -142,7 +142,7 @@ template <typename data_type> struct DoubleLinkedList {
     // inserta nodo con data: value
     // Despues del nodo "node" que no es nulo
     DoublyLinkedNode<data_type> *new_node =
-        new DoublyLinkedNode<data_type>(value, node->next);
+        new DoublyLinkedNode<data_type>(value, node->next, node);
     if (node == tail) {
       tail = new_node;
     }
@@ -177,7 +177,7 @@ template <typename data_type> struct DoubleLinkedList {
   void pop_back() {
     DoublyLinkedNode<data_type> *node = tail;
     tail = tail->prev;
-    tail->prev = nullptr;
+    tail->next = nullptr;
     delete node;
   }
 
@@ -208,10 +208,21 @@ template <typename data_type> struct DoubleLinkedList {
     }
   }
 
+  void delete_first(data_type value) {
+    DoublyLinkedNode<data_type> *current = head;
+    while (current != nullptr) {
+      if (current->data == value) {
+        erase(current);
+        return;
+      }
+      current = current->next;
+    }
+  }
+
   void print() {
     DoublyLinkedNode<data_type> *current = head;
     while (current != nullptr) {
-      cout << current->data << " ";
+      cout << current->data << " \n";
       current = current->next;
     }
     cout << '\n';
@@ -231,16 +242,17 @@ int main() {
     if (op == "insert") {
       int x;
       cin >> x;
-      L.push_back(x);
+      L.push_front(x);
     } else if (op == "delete") {
       int x;
       cin >> x;
-      L.erase(x);
+      L.delete_first(x);
     } else if (op == "deleteFirst") {
       L.pop_front();
     } else {
       L.pop_back();
     }
   }
+  L.print();
   return 0;
 }
