@@ -314,41 +314,15 @@ template <typename data_type> struct CircularLinkedList {
     DoublyLinkedNode<data_type> *current = head;
   }
 
-  void erase(DoublyLinkedNode<data_type> *node) {
-    if (head == head->next || node == head) {
-      pop_front();
-    } else {
-      node->prev->next = node->next;
-      node->next->prev = node->prev;
-      delete node;
-    }
-  }
+  void erase(DoublyLinkedNode<data_type> *node) {}
 };
 
 int main() {
   cin.tie(0)->sync_with_stdio(false);
   CircularLinkedList<pair<string, int>> L;
-  int n, q;
-  cin >> n >> q;
-  for (int i = 0; i < n; ++i) {
-    string name;
-    int time;
-    cin >> name >> time;
-    L.push_back({name, time});
-  }
-  DoublyLinkedNode<pair<string, int>> *current = L.head;
-  int time = 0;
-  while (L.head != nullptr) {
-    if (q >= current->data.second) {
-      time += current->data.second;
-      cout << current->data.first << ' ' << time << '\n';
-      current = current->next;
-      L.erase(current->prev);
-    } else {
-      time += q;
-      current->data.second -= q;
-      current = current->next;
-    }
+  int q;
+  cin >> q;
+  for (int i = 0; i < q; ++i) {
   }
   return 0;
 }
