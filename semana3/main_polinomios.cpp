@@ -129,18 +129,6 @@ template <typename data_type> struct DoubleLinkedList {
     }
   }
 
-  int size() {
-    DoublyLinkedNode<data_type> *current = head;
-    if (head == nullptr)
-      return 0;
-    int n = 1;
-    while (current->next) {
-      current = current->next;
-      n += 1;
-    }
-    return n;
-  }
-
   void push_front(data_type value) {
     // inserta nodo con data: value al inicio de la lista
     DoublyLinkedNode<data_type> *new_node =
@@ -326,33 +314,15 @@ template <typename data_type> struct CircularLinkedList {
     DoublyLinkedNode<data_type> *current = head;
   }
 
-  void erase(DoublyLinkedNode<data_type> *node) {
-    if (head == head->next || node == head) {
-      pop_front();
-    } else {
-      node->prev->next = node->next;
-      node->next->prev = node->prev;
-      delete node;
-    }
-  }
+  void erase(DoublyLinkedNode<data_type> *node) {}
 };
 
 int main() {
-  int n;
-  cin >> n;
-  CircularLinkedList<int> l1;
-  for (int i = 0; i < n; ++i) {
-    l1.push_back(i + 1);
+  cin.tie(0)->sync_with_stdio(false);
+  CircularLinkedList<pair<string, int>> L;
+  int q;
+  cin >> q;
+  for (int i = 0; i < q; ++i) {
   }
-  DoublyLinkedNode<int> *current = l1.head;
-  current = current->next;
-  while (l1.head != l1.head->next) {
-    cout << current->data << ' ';
-    current = current->next;
-    current = current->next;
-    l1.erase(current->prev->prev);
-  }
-  if (l1.head != nullptr) {
-    cout << l1.head->data;
-  }
+  return 0;
 }
