@@ -117,11 +117,10 @@ int main() {
     nodos[i] = new LinkedNode<int>();
   }
   LinkedList<int> lista;
-  cout << "no inicio";
   lista.head = nodos[head - 1];
-  cout << "si iniicio";
   for (int i = 1; i <= n; ++i) {
     int val, next, child;
+    cin >> val >> next >> child;
     nodos[i - 1]->data = val;
     if (next != 0) {
       nodos[i - 1]->next = nodos[next - 1];
