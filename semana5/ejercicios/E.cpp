@@ -67,10 +67,16 @@ int main() {
   vector<int> a(n);
   for (int i = 0; i < n; ++i)
     cin >> a[i];
-  my_map<int, int> frecuencias;
+  my_map<int, int> frecuencias(2 * n);
   stack<int> candidates;
   for (int i = n - 1; i >= 0; --i) {
     ++frecuencias[a[i]];
-    if (frecuencias[a[i]] == 2)
+    if (frecuencias[a[i]] == 1) {
+      candidates.push(a[i]);
+    }
+    while (not candidates.empty() and frecuencias[candidates.top()] > 1) {
+      candidates.pop();
+    }
   }
+  cout << (candidates.empty() ? -1 : candidates.top());
 }

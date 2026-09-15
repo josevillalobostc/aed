@@ -1,9 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+
 template <typename key_type, typename value_type> struct my_map {
   int m;
+  int _size;
   vector<vector<pair<key_type, value_type>>> chains;
-  my_map(int m) : m(m) { chains.resize(m); }
+
+  my_map(int m = 1) : m(m), _size(0) { chains.resize(m); }
 
   value_type &operator[](const key_type &key) {
     int chain_position = _hash(key);
@@ -14,17 +20,24 @@ template <typename key_type, typename value_type> struct my_map {
     }
     if (at == chains[chain_position].size()) {
       chains[chain_position].emplace_back(key, value_type());
+      ++_size;
     }
     return chains[chain_position][at].second;
   }
 
-  void erase(const key_type &x) {
+  void erase(const key_type &key) {
+    int chain_position = _hash(key);
     int at = 0;
     while (at < chains[chain_position].size() and
            chains[chain_position][at].first != key) {
       ++at;
     }
-    if (at == chains[chain_position].size()) {
+    if (at != chains[chain_position].size()) {
+      if (at + 1 < chains[chain_position].size()) {
+        swap(chains[chain_position][at], chains[chain_position].back());
+      }
+      chains[chain_position].pop_back();
+      --_size;
     }
   }
 
@@ -41,15 +54,6 @@ template <typename key_type, typename value_type> struct my_map {
     return true;
   }
 
-  int size() const {
-    int result = 0;
-    for (int i = 0; i < m; ++i)
-      result += chains[i].size();
-    return result;
-  }
-
-  bool empty() { return size() == 0; }
-
   int _hash(key_type key) const {
     // Para enteros
     const int B = 311;
@@ -62,6 +66,11 @@ template <typename key_type, typename value_type> struct my_map {
     }
     return hash_value % m;
   }
+
+  int size() const { return _size; }
+
+  bool empty() const { return _size == 0; }
+
   void print() {
     for (int i = 0; i < m; ++i) {
       cout << "Bucket " << i << ": " << endl;
@@ -74,7 +83,7 @@ template <typename key_type, typename value_type> struct my_map {
 };
 
 int main() {
-  cin.tie(0)->sync_with_stdio(false); // Fast I/O con cin/cout
+  cin.tie(0)->sync_with_stdio(false);
   int n;
   cin >> n;
   my_map<int, int> frecuencias(2 * n);
@@ -83,14 +92,19 @@ int main() {
     cin >> x;
     ++frecuencias[x];
   }
-  cin >> n;
-  for (int i = 0; i < n; ++i) {
+  int m;
+  cin >> m;
+  if (n != m) {
+    cout << "NO" << '\n';
+    return 0;
+  }
+  for (int i = 0; i < m; ++i) {
     int x;
     cin >> x;
     --frecuencias[x];
-    if (frecuencias[x] == 0) {
-      frecuecnias.erase(x);
-    }
-    cout << (frecuencias.empty() ? "SI" : "NO");
+    if (frecuencias[x] == 0)
+      frecuencias.erase(x);
   }
+  cout << (frecuencias.empty() ? "SI" : "NO") << '\n';
+  return 0;
 }
