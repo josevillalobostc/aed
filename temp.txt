@@ -1,0 +1,98 @@
+struct LRUCache(int n):
+  Dict dict<key, ptr>
+  DoublyLinkedList list<key,value>
+  capacity = n
+  size = 0
+
+  move_to_front(ptr):
+    if(ptr == list.head) 
+      return
+    ptr.prev.next = ptr.next
+    if(ptr == list.tail):
+      list.tail = ptr.prev
+    else:
+      ptr.next.prev = ptr.prev
+    list.head.prev = ptr
+    ptr.next = list.head
+    ptr.prev = nullptr
+    list.head = ptr
+
+  put(key, value):
+    ptr = dict[key]
+    if(ptr == nullptr):
+      if size == capacity:
+        dict.erase(list.tail.key)
+        list.pop_back
+        size--
+      list.push_front(key, value)
+      dict[key] = list.head
+      size++
+    else:
+      move_to_front(ptr)
+      ptr.value = value
+
+  get(key):
+    if(not dict.has_key(key)):
+      return -1
+    ptr = dict[key]
+    move_to_front(ptr)
+    return ptr.value
+
+
+
+MedianaDatos:
+  min_heap sup
+  max_heap inf
+  size = 0
+  insert(value):
+    inf.insert(value)
+    if(sup.size > 0 and inf.top > sup.top):
+      sup.insert(inf.pop())
+    if(inf.size > sup.size + 1):
+      sup.insert(inf.pop())
+    if(sup.size > inf.size):
+      inf.insert(sup.pop())
+    size++
+  median():
+    return inf.top
+
+
+validarBST(root):
+  validar(root, -inf, +inf)
+
+validar(root, left, right):
+  if(root == nullptr):
+    return true
+  if(left >= root.value):
+    return false
+  if(right <= root.value):
+    return false
+  return validar(root.left, left, root.value) and validar(root.right, root.value, right)
+
+merge_lists(vector<list> lists, k):
+  min_heap heep
+  list res
+  bool finished = false
+  while(!finished):
+    finished = true
+    for(list in lists):
+      if(list.head != nullptr):
+        finished = false
+        heep.insert(list.head.value)
+        heep.pop_front()
+  while(!heep.empty()):
+    res.push_back(heep.pop())
+  return res
+
+
+sum_subarrays(array, k):
+  Dict dict
+  dict[0] = 1
+  sum = 0
+  cant = 0
+  for num in array:
+    sum = sum + num
+    if(dict.has_key(sum - key)):
+      cant += dict[sum-key]
+    sum[sum]++
+  return cant
