@@ -1,25 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// ========================================================
-// Red-Black Tree Estático (basado en Arrays)
-// ========================================================
-// Cada nodo es un entero de 1 a MAXN.
-// El 0 representa 'Tnil' (centinela negro nulo).
-// ========================================================
-
 const int MAXN = 500005;
 
 struct RBTree_Array {
   enum Color { BLACK = 0, RED = 1 };
 
-  int L[MAXN];     // Hijo izquierdo
-  int R[MAXN];     // Hijo derecho
-  int P[MAXN];     // Padre
-  int color[MAXN]; // Color del nodo (0 = BLACK, 1 = RED)
-  int val[MAXN];   // Clave/valor
+  int L[MAXN];
+  int R[MAXN];
+  int P[MAXN];
+  int color[MAXN];
+  int val[MAXN];
 
-  // Pool de memoria y reciclaje
   int trash[MAXN];
   int trash_sz = 0;
   int node_cnt = 0;
@@ -29,7 +21,7 @@ struct RBTree_Array {
     root = 0;
     node_cnt = 0;
     trash_sz = 0;
-    color[0] = BLACK; // Tnil siempre es negro
+    color[0] = BLACK;
     L[0] = R[0] = P[0] = 0;
   }
 
@@ -37,7 +29,7 @@ struct RBTree_Array {
     int u = (trash_sz > 0) ? trash[--trash_sz] : ++node_cnt;
     val[u] = v;
     L[u] = R[u] = P[u] = 0;
-    color[u] = RED; // Nodos nuevos nacen rojos
+    color[u] = RED;
     return u;
   }
 
@@ -76,7 +68,7 @@ struct RBTree_Array {
       if (key < val[cur]) cur = L[cur];
       else cur = R[cur];
     }
-    return 0; // No encontrado
+    return 0;
   }
 
   int min_element(int u) {

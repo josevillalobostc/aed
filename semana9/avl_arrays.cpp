@@ -1,23 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// ========================================================
-// AVL Tree Estático (basado en Arrays)
-// ========================================================
-// Cada nodo es un entero de 1 a MAXN.
-// El 0 representa 'nullptr' (nodo nulo).
-// ========================================================
-
 const int MAXN = 500005;
 
 struct AVL_Array {
-  int L[MAXN];   // Hijo izquierdo
-  int R[MAXN];   // Hijo derecho
-  int P[MAXN];   // Padre
-  int H[MAXN];   // Altura del subárbol
-  int val[MAXN]; // Clave/valor almacenado
+  int L[MAXN];
+  int R[MAXN];
+  int P[MAXN];
+  int H[MAXN];
+  int val[MAXN];
 
-  // Pool de memoria y reciclaje de IDs eliminados
   int trash[MAXN];
   int trash_sz = 0;
   int node_cnt = 0;
@@ -27,7 +19,7 @@ struct AVL_Array {
     root = 0;
     node_cnt = 0;
     trash_sz = 0;
-    H[0] = -1; // Altura de nulo es -1
+    H[0] = -1;
     L[0] = R[0] = P[0] = 0;
   }
 
@@ -128,7 +120,7 @@ struct AVL_Array {
       if (key < val[cur]) cur = L[cur];
       else cur = R[cur];
     }
-    return 0; // No encontrado
+    return 0;
   }
 
   int min_element(int u) {
