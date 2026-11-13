@@ -10,14 +10,14 @@ int dx[4] = {1, -1, 0, 0};
 int dy[4] = {0, 0, 1, -1};
 
 int DFS(int x, int y) {
-  visitados[x * n + y] = true;
+  visitados[x * m + y] = true;
   int res = 1;
   for (int k = 0; k < 4; ++k) {
     int vx = x + dx[k];
     int vy = y + dy[k];
     if (vx < 0 or vx >= n or vy < 0 or vy >= m)
       continue;
-    if (visitados[vx * n + vy])
+    if (visitados[vx * m + vy])
       continue;
     if (mat[vx][vy] != '#')
       continue;
@@ -39,7 +39,7 @@ int main() {
     for (int j = 0; j < m; ++j) {
       if (mat[i][j] == '.')
         continue;
-      if (visitados[i * n + j])
+      if (visitados[i * m + j])
         continue;
       max_isla = max(max_isla, DFS(i, j));
       ++cnt_islas;
